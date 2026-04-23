@@ -6,7 +6,7 @@
  */
 
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join as joinPath } from "node:path";
 import { argv, exit, stdout } from "node:process";
 import { styleText } from "node:util";
@@ -77,7 +77,7 @@ const buildData = () => {
                     "-I./third_party/imgui/",
                     "-I./third_party/imgui/backends",
                     "-I./third_party/dear_bindings",
-                    "-I./third_party/imnodes",
+                    // "-I./third_party/imnodes",
 
                     "-DJSIMGUI_BACKEND_WEBGL",
                     "-DJSIMGUI_BACKEND_WEBGPU",
@@ -190,8 +190,8 @@ const buildWasm = (cfg: BuildConfig) => {
         "./third_party/dear_bindings/dcimgui.cpp",
         "./third_party/dear_bindings/dcimgui_internal.cpp",
 
-        cfg.extensions ? "./src/imnodes/imnodes.cpp" : "",
-        cfg.extensions ? "./third_party/imnodes/imnodes.cpp" : "",
+        // cfg.extensions ? "./src/imnodes/imnodes.cpp" : "",
+        // cfg.extensions ? "./third_party/imnodes/imnodes.cpp" : "",
     ] as const;
 
     const includeDirs = [
@@ -200,7 +200,7 @@ const buildWasm = (cfg: BuildConfig) => {
         "-I./third_party/imgui/",
         "-I./third_party/imgui/backends",
         "-I./third_party/dear_bindings",
-        "-I./third_party/imnodes",
+        // "-I./third_party/imnodes",
     ] as const;
 
     const compilerFlags = [
@@ -253,6 +253,7 @@ const buildWasm = (cfg: BuildConfig) => {
         stdout.write("\n");
     }
 
+    rmSync("build", { recursive: true, force: true })
     mkdirSync("build", { recursive: true });
     mkdirSync("build/wasm", { recursive: true });
     runCommand(cmd.join(" "));

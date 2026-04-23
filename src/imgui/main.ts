@@ -1,8 +1,8 @@
 import { cpSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import type { GeneratorConfig, GeneratorContext } from "../generator/config.ts";
 import { getEnumCodeTs } from "../generator/enum.ts";
-import { getFunctionCodeTs } from "../generator/function.ts";
 import { getFunctionCodeCpp } from "../generator/function-cpp.ts";
+import { getFunctionCodeTs } from "../generator/function.ts";
 import {
     type DearBindingsData,
     mapEnums,
@@ -10,8 +10,8 @@ import {
     mapStructs,
     mapTypedefs,
 } from "../generator/provider/dear-bindings.ts";
-import { getStructCodeTs } from "../generator/struct.ts";
 import { getStructCodeCpp } from "../generator/struct-cpp.ts";
+import { getStructCodeTs } from "../generator/struct.ts";
 import { getTypedefCodeTs } from "../generator/typedef.ts";
 import { filterData } from "./filter.ts";
 
@@ -158,7 +158,7 @@ export function generateImGuiBindings(): void {
     ].join("");
 
     cpSync("./src/imgui/api/ts", "./bindgen/ts", { recursive: true });
-    cpSync("./src/imnodes/imnodes.ts", "./bindgen/ts/imnodes.ts");
+    // cpSync("./src/imnodes/imnodes.ts", "./bindgen/ts/imnodes.ts");
     mkdirSync("./bindgen/ts", { recursive: true });
     mkdirSync("./bindgen/cpp", { recursive: true });
     writeFileSync("./bindgen/ts/imgui.ts", ts);
